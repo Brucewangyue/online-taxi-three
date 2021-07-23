@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.van.serviceuser.dao.PassengerUserDao">
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="PassengerUser" useGeneratedKeys="true">
+        insert into passenger_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="registerDate != null">
+                register_date,
+            </if>
+            <if test="passengerPhone != null">
+                passenger_phone,
+            </if>
+            <if test="passengerName != null">
+                passenger_name,
+            </if>
+            <if test="passengerGender != null">
+                passenger_gender,
+            </if>
+            <if test="userState != null">
+                user_state,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="registerDate != null">
+                #{registerDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="passengerPhone != null">
+                #{passengerPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="passengerName != null">
+                #{passengerName,jdbcType=VARCHAR},
+            </if>
+            <if test="passengerGender != null">
+                #{passengerGender,jdbcType=TINYINT},
+            </if>
+            <if test="userState != null">
+                #{userState,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+</mapper>

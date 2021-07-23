@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: cloud-eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka0:7900/eureka/
+      #,http://eureka1:7901/eureka/,http://eureka2:7902/eureka/
+    register-with-eureka: false
+    fetch-registry: false
+  server:
+    # 服务少的时候可以关闭
+    enable-self-preservation: false
+    # 自我保护的阈值
+    renewal-percent-threshold: 0.85
+    # 不可用服务剔除间隔，内部使用Timer实现，缺点：遇到异常未捕获会终止所有任务 （快速下线）
+    eviction-interval-timer-in-ms: 1000
+    # 是否开启 readOnlyCacheMap（注册表的三级缓存）
+    use-read-only-response-cache: false
+    # readWriteCacheMap（二级缓存） 同步数据到 readOnlyCacheMap 的时间间隔，默认30秒
+    response-cache-update-interval-ms: 1000
+---
+spring:
+  profiles: 7900
+server:
+  port: 7900
+eureka:
+  instance:
+    # hostname 需要和DefaultZone中一致
+    hostname: eureka0
+---
+spring:
+  profiles: 7901
+server:
+  port: 7901
+eureka:
+  instance:
+    hostname: eureka1
+---
+spring:
+  profiles: 7902
+server:
+  port: 7902
+eureka:
+  instance:
+    hostname: eureka2

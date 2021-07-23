@@ -1,0 +1,15 @@
+# 应用名称
+spring:
+  application:
+    name: cloud-zuul
+# 应用服务 WEB 访问端口
+server:
+  port: 9100
+eureka:
+  client:
+    enabled: false
+    service-url:
+      defaultZone: http://eureka0:7900/eureka/
+    registry-fetch-interval-seconds: 30
+  instance:
+    lease-renewal-interval-in-seconds: 30

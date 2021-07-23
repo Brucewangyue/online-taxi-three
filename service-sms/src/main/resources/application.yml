@@ -1,0 +1,42 @@
+# 应用名称
+spring:
+  application:
+    name: service-sms
+  datasource:
+    #配置当前使用的数据源的操作类型
+    #    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: F@20dms2020
+    url: jdbc:mysql://10.9.33.193:3306/test1
+    # 连接池配置
+    dbcp2:
+      # 初始化连接数
+      initial-size: 5
+      # 最小维持连接数
+      min-idle: 5
+      # 最大连接数
+      max-total: 5
+      # 等待连接获取的最大超时时间
+      max-wait-millis: 300
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+# 应用服务 WEB 访问端口
+server:
+  port: 8083
+eureka:
+  client:
+    enabled: false
+    service-url:
+      defaultZone: http://localhost:7900/eureka/
+    registry-fetch-interval-seconds: 30
+  instance:
+    lease-renewal-interval-in-seconds: 30
+
+mybatis:
+  mapper-locations:
+    - classpath:mapper/*.xml
+  type-aliases-package: com.van.servicesms.entity.**
+
