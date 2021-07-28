@@ -24,11 +24,9 @@ spring:
       test-on-borrow: false
       test-on-return: false
 # 应用服务 WEB 访问端口
-server:
-  port: 8083
 eureka:
   client:
-    enabled: false
+    enabled: true
     service-url:
       defaultZone: http://localhost:7900/eureka/
     registry-fetch-interval-seconds: 30
@@ -39,4 +37,21 @@ mybatis:
   mapper-locations:
     - classpath:mapper/*.xml
   type-aliases-package: com.van.servicesms.entity.**
-
+---
+server:
+  port: 8103
+spring:
+  profiles: 8103
+eureka:
+  instance:
+    metadata-map:
+      grayVersion: v1
+---
+server:
+  port: 9103
+spring:
+  profiles: 9103
+eureka:
+  instance:
+    metadata-map:
+      grayVersion: v2

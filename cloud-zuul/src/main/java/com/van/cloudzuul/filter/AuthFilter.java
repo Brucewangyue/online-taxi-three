@@ -9,13 +9,16 @@ import com.van.internalcommon.util.JwtUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpStatus;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
-import org.springframework.data.redis.core.StringRedisTemplate;
+//import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 
+//@Component
 public class AuthFilter extends ZuulFilter {
-    @Resource
-    StringRedisTemplate redisTemplate;
+//    @Resource
+//    StringRedisTemplate stringRedisTemplate;
 
     @Override
     public String filterType() {
@@ -23,6 +26,11 @@ public class AuthFilter extends ZuulFilter {
         return FilterConstants.PRE_TYPE;
     }
 
+    /**
+     * 值越小越先执行
+     *
+     * @return
+     */
     @Override
     public int filterOrder() {
         return -1;
@@ -30,7 +38,9 @@ public class AuthFilter extends ZuulFilter {
 
     @Override
     public boolean shouldFilter() {
-        return true;
+        // 判断上一个过滤器是否设置为已终止
+        RequestContext context = RequestContext.getCurrentContext();
+        return context.sendZuulResponse();
     }
 
     @Override
@@ -43,9 +53,11 @@ public class AuthFilter extends ZuulFilter {
         if (StringUtils.isNotBlank(token)) {
             JwtInfo jwtInfo = JwtUtil.parseToken(token);
             if (null != jwtInfo) {
-                String redisToken = redisTemplate.opsForValue().get(RedisKeyPrefixConstant.PASSENGER_LOGIN_TOKEN_APP_KEY_PRE + jwtInfo.getSubject());
-                if (redisToken.equals(token))
+                String redisToken = "";// stringRedisTemplate.opsForValue().get(RedisKeyPrefixConstant.PASSENGER_LOGIN_TOKEN_APP_KEY_PRE + jwtInfo.getSubject());
+                if (redisToken.equals(token)) {
+                    context.set("userId", jwtInfo.getSubject());
                     return null;
+                }
             }
         }
 
@@ -54,5 +66,13 @@ public class AuthFilter extends ZuulFilter {
         context.setResponseStatusCode(HttpStatus.SC_UNAUTHORIZED);
         context.setResponseBody("unauthorized");
         return null;
+    }
+
+    public static void main(String[] args) {
+        // 如果使用数字，小数只能对半拆分，0.5,0.25,0.125，否则只能无限靠近
+        BigDecimal b1 = new BigDecimal(0.25);
+        BigDecimal b2 = new BigDecimal(1);
+        System.out.println(b1.add(b2));
+        System.out.println(new BigDecimal(2.1));
     }
 }
