@@ -55,6 +55,12 @@ public class ResponseResult<E> implements Serializable {
         return result;
     }
 
+    public static ResponseResult<?> error(int code) {
+        ResponseResult<?> result = new ResponseResult<>();
+        result.setCode(code);
+        return result;
+    }
+
     /**
      * 自定义异常
      *

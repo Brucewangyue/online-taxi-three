@@ -16,3 +16,27 @@ eureka:
     registry-fetch-interval-seconds: 30
   instance:
     lease-renewal-interval-in-seconds: 30
+zuul:
+  # 忽略向后传递的Headers
+  sensitive-headers:
+  routes:
+    # 自我转发（转发到zuul本身的控制器）
+    xxx:
+      path: /self/**
+      url: forward:/myController
+    #    xxxx: /hostForward/**
+
+    # 做指定主机名的转发
+    hostForward:
+      path: /hostForward/**
+      # 随意写，主要是让zuul认为该路径匹配的是host走simpleHostFilter
+      # 而不是识别为注册中心的服务走bibbonFilter
+      url: http://{replace}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    routes: true

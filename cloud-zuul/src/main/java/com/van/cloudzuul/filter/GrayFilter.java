@@ -7,7 +7,7 @@ import io.jmnarloch.spring.cloud.ribbon.support.RibbonFilterContextHolder;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class GrayFilter extends ZuulFilter {
     @Override
     public String filterType() {
