@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.van.serviceorder.dao.LocalEventDao">
+  <resultMap id="BaseResultMap" type="com.van.serviceorder.entity.LocalEvent">
+    <id column="id" jdbcType="CHAR" property="id" />
+    <result column="eventType" jdbcType="CHAR" property="eventtype" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="createDate" jdbcType="TIMESTAMP" property="createdate" />
+    <result column="updateDate" jdbcType="TIMESTAMP" property="updatedate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, eventType, content, `status`, createDate, updateDate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `local-event`
+    where id = #{id,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from `local-event`
+    where id = #{id,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.van.serviceorder.entity.LocalEvent" useGeneratedKeys="true">
+    insert into `local-event` (id,eventType, content, `status`,
+      createDate, updateDate)
+    values (#{id}, #{eventType,jdbcType=CHAR}, #{content,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT},
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.van.serviceorder.entity.LocalEvent" useGeneratedKeys="true">
+    insert into `local-event`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="eventtype != null">
+        eventType,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="createdate != null">
+        createDate,
+      </if>
+      <if test="updatedate != null">
+        updateDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="eventtype != null">
+        #{eventtype,jdbcType=CHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createdate != null">
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedate != null">
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.van.serviceorder.entity.LocalEvent">
+    update `local-event`
+    <set>
+      <if test="eventtype != null">
+        eventType = #{eventtype,jdbcType=CHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createdate != null">
+        createDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedate != null">
+        updateDate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.van.serviceorder.entity.LocalEvent">
+    update `local-event`
+    set eventType = #{eventtype,jdbcType=CHAR},
+      content = #{content,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=TINYINT},
+      createDate = #{createdate,jdbcType=TIMESTAMP},
+      updateDate = #{updatedate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=CHAR}
+  </update>
+
+  <update id="updateStatus" >
+    update `local-event`
+    set  `status` = #{param2}
+    where id = #{param1}
+  </update>
+<!--  resultMap="BaseResultMap"-->
+  <select id="selectAllUnSendEvent" resultType="com.van.serviceorder.entity.LocalEvent">
+    select
+    <include refid="Base_Column_List" />
+    from `local-event`
+    where `status` = 1
+  </select>
+</mapper>
