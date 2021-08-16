@@ -1,0 +1,7 @@
+# 应用名称
+spring:
+  application:
+    name: cloud-admin
+server:
+  port: 7600
+

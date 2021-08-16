@@ -1,0 +1,28 @@
+# 应用名称
+spring:
+  application:
+    name: cloud-config-server
+  cloud:
+    config:
+      server:
+        git:
+          #https://github.com/yueyi2019/online-taxi-config-profile.git
+          uri: https://github.com/Brucewangyue/config-server-test
+          username:
+          password:
+          #默认是秒，因为git慢
+          timeout: 15
+          default-label: main
+          skip-ssl-validation: true
+server:
+  port: 7700
+eureka:
+  client:
+    registry-fetch-interval-seconds: 30
+    fetch-registry: false
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:7900/eureka/
+      #,http://localhost:7901/eureka/,http://localhost:7902/eureka/
+  instance:
+      lease-renewal-interval-in-seconds: 30

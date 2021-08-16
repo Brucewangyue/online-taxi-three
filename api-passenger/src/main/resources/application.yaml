@@ -1,6 +1,11 @@
 spring:
   application:
     name: api-passenger
+  sleuth:
+    sampler:
+      rate: 1
+  #zipkin:
+    #base-url:
 server:
   port: 8080
 eureka:
