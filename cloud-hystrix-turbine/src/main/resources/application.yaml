@@ -1,8 +1,10 @@
+# 应用名称
 spring:
   application:
-    name: api-passenger
-server:
-  port: 8080
+    name: cloud-hystrix-turbine
+turbine:
+  app-config: api-passenger
+  cluster-name-expression: "'default'"
 eureka:
   client:
     registry-fetch-interval-seconds: 30
@@ -11,8 +13,3 @@ eureka:
       #,http://localhost:7901/eureka/,http://localhost:7902/eureka/
   instance:
     lease-renewal-interval-in-seconds: 30
-management:
-  endpoints:
-    web:
-      exposure:
-        include: '*'

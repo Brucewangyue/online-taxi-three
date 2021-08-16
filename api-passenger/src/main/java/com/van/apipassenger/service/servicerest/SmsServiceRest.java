@@ -1,5 +1,6 @@
 package com.van.apipassenger.service.servicerest;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.van.internalcommon.dto.ResponseResult;
 import com.van.internalcommon.dto.servicesms.SmsTemplateDto;
 import com.van.internalcommon.dto.servicesms.request.SmsSendRequest;
@@ -19,6 +20,7 @@ public class SmsServiceRest {
     /**
      * 发送短信
      */
+    @HystrixCommand(fallbackMethod = "sendSmsFail")
     public ResponseResult sendSms(String phoneNumber, String code) {
         String url = "http://SERVICE-SMS/send/sms-template";
         SmsSendRequest smsSendRequest = new SmsSendRequest();
@@ -36,5 +38,9 @@ public class SmsServiceRest {
         smsSendRequest.setTemplates(data);
 
         return restTemplate.postForObject(url, smsSendRequest, ResponseResult.class);
+    }
+
+    private ResponseResult sendSmsFail(String phoneNumber, String code,Throwable throwable){
+        return ResponseResult.error("降级");
     }
 }

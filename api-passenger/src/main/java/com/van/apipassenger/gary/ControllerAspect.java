@@ -11,8 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 // aspect 方面
-@Aspect
-@Component
+//@Aspect
+//@Component
 public class ControllerAspect {
 
     // 指定切入点

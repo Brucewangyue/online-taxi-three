@@ -78,6 +78,8 @@ public class VerifyCodeService {
      */
     public static void main(String[] args) {
 //        testEfficiency();
+        String a = "asd";
+        System.out.println(a.intern());
     }
 
     private static void testEfficiency() {
